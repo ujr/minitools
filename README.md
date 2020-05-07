@@ -8,16 +8,16 @@ time ago. The markdown files I added only recently.
 
 ## The Tools
 
-- eol: convert end-of-line styles (Unix, DOS, Mac)
-- errno: describe errno values (wraps `strerror`)
-- ipinfo: show information about an IPv4 address
-- isbnck: verify the ISBN check sum
-- legick: check/compute a Swiss student "Leginummer"
-- mklock: create exclusive lock file (for use in scripts)
-- mkpwd: generate random initial passwords (use in scripts)
-- signo: describe signal numbers (wraps `strsignal`)
-- uxtime: convert Unix time stamp to human readable local time
-- xorit: xor standard input against a string
+- **eol** - convert end-of-line styles (Unix, DOS, Mac)
+- **errno** - describe errno values (wraps `strerror`)
+- **ipinfo** - show information about an IPv4 address
+- **isbnck** - verify the ISBN check sum
+- **legick** - check/compute a Swiss student "Leginummer"
+- **mklock** - create exclusive lock file (for use in scripts)
+- **mkpwd** - generate random initial passwords (use in scripts)
+- **signo** - describe signal numbers (wraps `strsignal`)
+- **uxtime** - convert Unix time to human readable local time
+- **xorit** - xor standard input against a string
 
 All tools exit with status **0** if successful,
 **111** if a temporary error occurred, and
@@ -132,4 +132,21 @@ be used, at the price of less portability.
 
 ## License
 
-![GitHub](https://img.shields.io/github/license/ujr/simple)
+Collection of my simple and miniature tools.  
+Copyright (C) 1999-2008 Urs Jakob Ruetschi
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+![GitHub](https://img.shields.io/github/license/ujr/minitools)
