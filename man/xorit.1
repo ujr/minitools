@@ -1,0 +1,53 @@
+.TH xorit 1 "June 2003" minitools
+.
+.SH NAME
+xorit \- Xor input against a key
+.
+.SH SYNOPSIS
+\fBxorit\fP [-hvV] [-f \fIkeyfile\fP] [\fIstring\fP]
+.
+.SH DESCRIPTION
+Xor standard input against an infinite self-concatenation of the
+contents of \fIkeyfile\fP or \fIstring\fP and write the result to
+standard output. If both \fIstring\fP and \fIkeyfile\fP are present,
+\fIstring\fP is used and \fIkeyfile\fP is ignored; if neither is
+present, xor against hex FF.
+.PP
+Return \fB0\fP if everything went fine, \fB111\fP if there are
+troubles reading or writing, and \fB127\fP on any other error
+such as invalid arguments.
+.
+.SH OPTIONS
+.TP 5
+.BI "-f " keyfile
+Xor standard input against the contents of \fIkeyfile\fP.
+.TP 5
+.B -h
+Show quick help to standard output and quit.
+.TP 5
+.B -v
+Verbose mode: log some info to standard error.
+.TP 5
+.B -V
+Write version information to standard output and quit.
+.
+.SH EXAMPLES
+The xor (exclusive or) is frequently used as an efficient but
+not particularly secure encryption method. For example, the
+resource files of LucasArts SCUMM games are "encrypted" by
+xoring them against one byte with value hex 69 (ASCII i);
+it can be fun peeking into these files:
+
+.RB "$ " "cat file | xorit i | strings"
+
+When using xorit for encrypting files, the longer the key the better.
+If it is at least as long as the file to encrypt and completely random,
+then xor encryption is unbreakable. Needless to say, such keys are
+cumbersome to handle.
+
+.RB "$ " "cat file | xorit -f keyfile > file.x && rm file"
+
+.SH AUTHOR
+Written by UJR in 2003.
+.br
+Released under the GNU General Public License (GPL).

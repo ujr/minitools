@@ -1,0 +1,71 @@
+.TH eol 1 "July 2002" minitools
+.
+.SH NAME
+eol \- End-of-line Converter
+.
+.SH SYNOPSIS
+eol [-dmu] [\fIfiles\fP]
+.
+.SH DESCRIPTION
+Convert between three different end-of-line conventions in text files:
+Unix, Macintosh, and DOS (including Windows). The input convention is
+automatically recognised, the output convention is specified by an
+option on the command line; Unix is the default. Output is written
+to standard output. If no \fIfiles\fP are specified on the command line,
+\fBeol\fP reads from standard input. If more than one file is specified,
+they are all concatenated.
+.
+.SH OPTIONS
+.TP 5
+.B -d
+Convert to DOS style CR LF.
+.TP 5
+.B -m
+Convert to Macintosh style CR.
+.TP 5
+.B -u
+Convert to Unix style LF (default).
+.
+.SH EXAMPLES
+.RS
+.nf
+$ \fBeol -m file.txt > file.mac\fP   # convert to Mac line endings
+$ \fBeol < in.txt > out.txt\fP       # convert to Unix line endings
+.fi
+.RE
+.
+.SH REMARKS
+There are three widely used conventions of how to represent the end
+of a line in text files. Unix systems use a single LF (line feed,
+ASCII 10) character, the Macintosh uses a single CR (carriage return,
+ASCII 13), and DOS systems, including Windows, use the combination
+CR LF (a carriage return followed by a line feed). Many recent text
+editors automatically recognize these conventions and transparently
+convert between them. When scripting, however, you need a small tool
+instead of a big interactive program.
+.PP
+Note that at least on Unix systems there are alternatives to using
+\fBeol\fP. For example, to convert from Macintosh and DOS to Unix,
+you could try:
+.RS
+.nf
+\fBtr\fP '\\015' '\\012' < \fImac.file\fP > \fIunix.file\fP
+\fBtr\fP -d '\\015' < \fIdos.file\fP > \fIunix.file\fP
+.fi
+.RE
+The first command translates CR to LF, the second simply deletes CR.
+Using \fBeol\fP does not requires such knowledge about end-of-lines.
+.PP
+In the VI improved (vim) editor, files can be converted to any
+of the three conventions by typing
+.RS
+.nf
+:set ff=\fIformat\fP
+.fi
+.RE
+where \fIformat\fP is one of unix, dos, mac.
+.
+.SH AUTHOR
+Written by UJR in 2002.
+.br
+Released under the GNU General Public License (GPL).

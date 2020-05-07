@@ -1,0 +1,30 @@
+.TH uxtime 1 "February 2008" minitools
+.
+.SH NAME
+uxtime \- Convert Unix time to local time
+.
+.SH SYNOPSIS
+\fBuxtime\fP [\fIunixtime\fP]
+.
+.SH DESCRIPTION
+Convert a Unix time stamp (seconds since 1970-01-01 00:00:00 GMT)
+to a human readable time representation in the local time zone
+(or the one given in the TZ environment variable).
+If no \fIunixtime\fP is specified on the command line, use current
+system time.
+.
+.SH EXAMPLE
+.RB "$ " "uxtime 1202296457"
+.nf
+Unix time 1202296457 is 2008-02-06 12:14:17 CET
+.fi
+.RB "$ " "TZ=UTC uxtime 0"
+.nf
+Unix time 0 is 1970-01-01 00:00:00 UTC
+.fi
+.
+.SH SEE ALSO
+\fBlocaltime\fP(3), \fBtime\fP(2)
+.
+.SH AUTHOR
+Written by UJR in 2008, public domain.

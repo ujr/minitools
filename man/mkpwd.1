@@ -1,0 +1,93 @@
+.TH mkpwd 1 "October 2004" minitools
+.
+.SH NAME
+mkpwd \- Generate random initial passwords
+.
+.SH SYNOPSIS
+\fBmkpwd\fP [-DHV] [-N \fInum\fP] {-\fIc string\fP} [\fIspec\fP]
+.
+.SH DESCRIPTION
+Generate random passwords according to \fIspec\fP and write them
+to standard output. All characters in \fIspec\fP are output verbatim,
+except for sequences \fInc\fP where \fIn\fP is a decimal number and
+\fIc\fP is a single lower case letter, naming an alphabet.
+.PP
+There are 26 alphabets, named \fBa\fP through \fBz\fP; all of these
+can be changed with the -\fIc string\fP (\fIc\fP in [a-z]) option.
+Some alphabets are preloaded:
+\fBa\fP is [a-zA-Z],
+\fBb\fP is [a-z],
+\fBc\fP is [A-Z],
+\fBd\fP is [0-9], and
+\fBz\fP is [a-zA-Z0-9] without [0O1Il]
+because these are easily confused in many typefaces.
+Note that \fBmkpwd\fP is not clever enough to understand
+the shorthand notations for character ranges used here;
+instead, you have to explicitly list all characters in the
+alphabet.
+.PP
+If no \fIspec\fP is given on the command line, \fBmkpwd\fP
+uses the value of the environment variable MKPWDSPEC.
+If this variable is not defined or its value is the empty string,
+then \fBmkpwd\fP uses \fB8z\fP, i.e., it generates 8 random
+characters from the alphabet \fBz\fP described above.
+.PP
+If anything goes wrong, \fBmkpwd\fP complains to standard error.
+Exit codes are \fB0\fP for success and \fB127\fP on error.
+.
+.SH OPTIONS
+.TP 5
+.BI "-N " num
+Generate \fInum\fP passwords instead of just one.
+.TP 5
+.BI - "c string"
+Set alphabet \fIc\fP to \fIstring\fP, \fIc\fP in [a-z].
+.TP 5
+.B -D
+Debug mode: print the loaded alphabets to stderr.
+.TP 5
+.B -V
+Show version to standard output and quit.
+.TP 5
+.B -H
+Show quick help to standard output and quit.
+.
+.SH EXAMPLES
+.nf
+.RB "$ " mkpwd
+mgH9RJo4
+.RB "$ " "mkpwd 8z"
+ZCszZKRR
+.RB "$ " "mkpwd 6c"
+QZZMCA
+.RB "$ " "mkpwd -a 01 16a"
+1001001111001000
+.RB "$ " "mkpwd 3b5d"
+zap28565
+.RB "$ " "mkpwd -N 5 2d-3d-3d"
+10-153-445
+12-736-513
+16-770-938
+36-526-833
+02-386-421
+.RB "$ " "mkpwd -D -N 0" "  # show preloaded alphabets"
+a: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+b: abcdefghijklmnopqrstuvwxyz
+c: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+d: 0123456789
+z: abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789
+.fi
+.
+.SH BUGS
+Probably many -- please report.
+Certainly, one deficiency is that mkpwd can only generate passwords
+of a fixed length. Another one is, that we should allow for an external
+source of random data to be specified, such as \fI/dev/random\fP on Linux
+systems. This could be passed as an option on the command line.
+At present, a simple linear congruential random number generator
+is used, seeded with the current time plus the process ID.
+.
+.SH AUTHOR
+Written by UJR in 2004.
+.br
+Released under the GNU General Public License (GPL).

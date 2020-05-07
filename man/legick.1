@@ -1,0 +1,38 @@
+.TH legick 1 "April 2003" minitools
+.
+.SH NAME
+legick \- Check and compute Swiss student registry numbers
+.
+.SH SYNOPSIS
+\fBlegick\fP \fInumber\fP
+.
+.SH DESCRIPTION
+Compute or verify the check digit in Swiss student registry numbers
+(also known as the "Matrikelnummer" or "Leginummer").
+
+If \fInumber\fP consists of 7 digits, the 8th (check) digit will
+be computed, if \fInumber\fP consists of 8 digits, it is assumed
+to be a Matrikelnummer and will be verified, otherwise, an error
+messages is written to standard error and status \fB99\fP returned.
+
+\fBLegick\fP writes the given or computed number to standard
+output, followed by a blank, followed by "ok" if the check
+equation holds, "wrong" if it does not, or "check" if the
+check digit was computed.
+
+Return \fB0\fP if the given \fInumber\fP is correct or the
+check digit was computed. Return \fB1\fP if \fInumber\fP is
+incorrect according to its check digit.
+.
+.SH REMARKS
+The Swiss student registry number (Matrikelnummer or "Leginummer")
+consists of 8 digits, optionally with a dash after the second and
+the fifth digit from the left (for better readability).
+The last digit is a check digit computed from the others using the
+"IBM check" method. For example, here's twice the same Matrikelnummer,
+with and without dashes: 96709977, 96-709-977.
+.
+.SH AUTHOR
+Written by UJR in 2003.
+.br
+Released under the GNU General Public License (GPL).

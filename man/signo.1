@@ -1,0 +1,30 @@
+.TH signo 1 "May 2005" minitools
+.
+.SH NAME
+signo \- Describe signal numbers
+.
+.SH SYNOPSIS
+\fBsigno\fP \fInumber\fP
+.
+.SH DESCRIPTION
+Translate the signal \fInumber\fP on the command line to the name
+of the signal by subjecting it to the strsignal(3) routine. This is
+useful whenever you are presented with an signal number (which is
+system dependent) instead of a descriptive name.
+.
+.SH EXAMPLE
+.nf
+$ \fBsigno 11\fP
+Segmentation fault
+.fi
+.
+.SH BUGS
+Note that you should compile the source file on any system you want
+to use this tool; just copying the binary file may result in invalid
+signal names, as the signal numbering can change between systems.
+.PP
+The \fBstrsignal\fP(3) function exists on Linux and BSD systems, but
+is not part of ANSI C or old POSIX standards.
+.
+.SH AUTHOR
+Written by UJR in 2005, public domain.

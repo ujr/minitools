@@ -1,0 +1,28 @@
+.TH isbnck 1 "September 2002" minitools
+.
+.SH NAME
+isbnck \- Verify the ISBN check sum
+.
+.SH SYNOPSIS
+\fBisbnck\fP \fInumber\fP
+.
+.SH DESCRIPTION
+Read an ISBN (International Standard Book Number) from the command
+line and verify the check equation. Print one line to standard error:
+"ok" if the ISBN is valid, "invalid" if it is invalid, and "malformed"
+if it is syntactically incorrect. Nothing goes to standard output.
+
+Dashes and blanks in the ISBN are optional; \fBisbnck\fP simply
+looks for 10 digits, the last one  might also be an 'X'.
+
+Return \fB0\fP if the check equation holds (the ISBN is valid),
+\fB1\fP if it does not, and \fB99\fP if the ISBN number is malformed
+or another error occurs.
+.
+.SH AUTHOR
+Written by UJR in 2002.
+.br
+Released under the GNU General Public License (GPL).
+
+.SH SEE ALSO
+http://www.isbn.org/

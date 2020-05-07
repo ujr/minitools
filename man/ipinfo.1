@@ -1,0 +1,107 @@
+.TH ipinfo 1 "November 2007" minitools
+.
+.SH NAME
+ipinfo \- Show IPv4 address information
+.
+.SH SYNOPSIS
+.nf
+\fBipinfo\fP [-hV] \fIaddr\fP/\fIn\fP
+\fBipinfo\fP [-hV] \fIaddr\fP [\fImask\fP]
+.fi
+.
+.SH DESCRIPTION
+Given an IPv4 address \fIaddr\fP and, optionally,
+a "slash" value /\fIn\fP or a (net or host) \fImask\fP,
+compute and show information about this address:
+netmask, hostmask, broadcast address, network address,
+and maximum number of hosts in this network, both in
+dotted decimal and in binary notation.
+Also indicate the address class (if neither /\fIn\fP
+nor a \fImask\fP is specified) and whether or not it
+is a private address according to RFC 1918.
+.
+.SH OPTIONS
+.TP 5
+.B -h
+Show quick help to standard output and quit.
+.TP 5
+.B -V
+Show version to standard output and quit.
+.
+.SH EXAMPLE
+.RB "$ " "ipinfo 192.168.25.108/27"
+.nf
+CIDR 27 host address, private
+Address:    192.168.25.108   11000000.10101000.00011001.011/01100
+Netmask:    255.255.255.224  11111111.11111111.11111111.111/00000  27
+Hostmask:   0.0.0.31         00000000.00000000.00000000.000/11111   5
+MaxHosts:   30               --------+--------+--------+---/-----
+Network:    192.168.25.96    11000000.10101000.00011001.011/00000 min
+Broadcast:  192.168.25.127   11000000.10101000.00011001.011/11111 max
+.fi
+.
+.SH REMARKS
+Originally, the first few bits of an IPv4 address decided about
+its class, which defined how many bits designate the network
+and how many bits designate the host within that network.
+RFC 1519 on Classless Inter-Domain Routing (CIDR)
+proposed a more flexible way of separating an IPv4 address
+into a network part and a host part. With CIDR, a netmask (or,
+equivalently, a hostmask) is used to make routing decisions.
+.PP
+An IPv4 \fBnetmask\fP specifies those bits of an IPv4 address
+that designate the network part of the address. The network part
+always consists of the \fIn\fP leftmost bits of the address.
+For example, 255.255.255.224 designates the 27 leftmost bits.
+.PP
+A \fBhostmask\fP (or "wildcard" in Cisco terms) is the
+bitwise negation of the netmask; it specifies those bits of
+an IPv4 address that designate the host part of the address.
+The host part always consists of the 32-\fIn\fP rightmost
+bits of the address. For example, 0.0.0.31 designates the
+5 rightmost bits.
+.PP
+Each valid netmask can also be represented more concisely
+by the number \fIn\fP of bits that form the network part
+of the address.  This number is known as the "slash-value"
+because it is usually appended to an IPv4 address, separated
+from it by a slash. For example, 192.168.3.224/27 means
+that the first (leftmost) 27 bits are the network part
+and the remaining (rightmost) 32-27=5 bits are the
+host number within that network.
+.PP
+The first address within a subnet designates this network
+itself. The last address within a subnet is the broadcast
+address, used for sending packets to all hosts in the subnet.
+Therefore, the number of addresses available for actual hosts
+in a subnet is two less than 2 to the power of the number of
+host bits. The first usable address is one more than the
+network address, and the last usable address is one less
+than the broadcast address.
+.PP
+Common CIDR suffixes and subnet masks, along with
+the maximum number of hosts in such a network:
+.PP
+.nf
+CIDR  Netmask         Hosts
+/22   255.255.252.0    1022
+/23   255.255.254.0     510
+/24   255.255.255.0     254
+/25   255.255.255.128   126
+/26   255.255.255.192    62
+/27   255.255.255.224    30
+/28   255.255.255.240    14
+/29   255.255.255.248     6
+/30   255.255.255.252     2
+.fi
+.
+.SH AUTHOR
+Written by UJR in 2001, last updated in 2007.
+.br
+Released under the GNU General Public License (GPL).
+
+.SH SEE ALSO
+.nf
+RFC 1918 Address Allocation for Private Internets
+RFC 1519 Classless Inter-Domain Routing (CIDR)
+.fi

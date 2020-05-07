@@ -1,0 +1,57 @@
+.TH mklock 1 "February 2003" minitools
+.
+.SH NAME
+mklock \- Make lock file
+.
+.SH SYNOPSIS
+\fBmklock\fP [-qQV] \fIlockfile\fP [\fIstuff\fP]
+.
+.SH DESCRIPTION
+Atomically check for existence of \fIlockfile\fP and create
+\fIlockfile\fP if it does not exist, otherwise complain to
+standard error. Any arguments after \fIlockfile\fP are written
+to \fIlockfile\fP with I/O errors, if any, silently ignored.
+.PP
+Return \fB0\fP if \fIlockfile\fP was successfully created,
+\fB111\fP if \fIlockfile\fP already existed, and \fB127\fP
+on any other error.
+.
+.SH OPTIONS
+.TP 5
+.B -h
+Show quick help to standard output and exit.
+.
+.TP 5
+.B -q
+Quiet mode: suppress error messages.
+.
+.TP 5
+.B -Q
+Show error messages to standard error (default).
+.
+.TP 5
+.B -V
+Show version to standard output and exit.
+.
+.SH EXAMPLE
+Mklock was written for use in shell scripts to ease mutual exclusion
+between several intances of the script running at once. Here is an
+example shell script:
+.PP
+.RS
+.nf
+# Acquire lock for a shared resource
+mklock /path/to/my/lockfile || exit 1
+Do something alone...
+rm -f /path/to/my/lockfile
+.fi
+.RE
+.
+.SH BUGS
+\fBMklock\fP uses the O_EXCL feature of the \fBopen\fP(2) system call,
+which is known to be unreliable on NFS volumes.
+.
+.SH AUTHOR
+Written by UJR in 2003.
+.br
+Released under the GNU General Public License (GPL).

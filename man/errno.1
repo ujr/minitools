@@ -1,0 +1,27 @@
+.TH errno 1 "October 2004" minitools
+.
+.SH NAME
+errno \- Describe system error codes
+.
+.SH SYNOPSIS
+\fBerrno\fP \fIcode\fP
+.
+.SH DESCRIPTION
+Translate the error \fIcode\fP on the command line to an error message
+by subjecting it to the strerror(3) routine. This may be useful when
+you are presented with an error code instead of an error message.
+.
+.SH EXAMPLE
+.nf
+$ \fBerrno 4\fP
+Interrupted system call
+.fi
+.
+.SH BUGS
+Note that you should compile the source file on any system you want
+to use this tool; just copying the binary file may not work. Of course,
+\fBerrno\fP can only translate error codes recognised by
+.BR strerror (3).
+.
+.SH AUTHOR
+Written by UJR in 2004. Public domain.
