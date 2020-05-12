@@ -32,25 +32,25 @@ uxtime: bin/uxtime
 xorit: bin/xorit
 
 bin/eol: src/eol.o
-	$(CC) -o $@ src/eol.o $(LDLIBS)
+	$(CC) $(LDFLAGS) -o $@ src/eol.o $(LDLIBS)
 bin/errno: src/errno.o
-	$(CC) -o $@ src/errno.o $(LDLIBS)
+	$(CC) $(LDFLAGS) -o $@ src/errno.o $(LDLIBS)
 bin/ipinfo: src/ipinfo.o src/scanuint.o
-	$(CC) -o $@ src/ipinfo.o src/scanuint.o $(LDLIBS)
+	$(CC) $(LDFLAGS) -o $@ src/ipinfo.o src/scanuint.o $(LDLIBS)
 bin/isbnck: src/isbnck.o
-	$(CC) -o $@ src/isbnck.o $(LDLIBS)
+	$(CC) $(LDFLAGS) -o $@ src/isbnck.o $(LDLIBS)
 bin/legick: src/legick.o
-	$(CC) -o $@ src/legick.o $(LDLIBS)
+	$(CC) $(LDFLAGS) -o $@ src/legick.o $(LDLIBS)
 bin/mklock: src/mklock.o
-	$(CC) -o $@ src/mklock.o $(LDLIBS)
+	$(CC) $(LDFLAGS) -o $@ src/mklock.o $(LDLIBS)
 bin/mkpwd: src/mkpwd.o
-	$(CC) -o $@ src/mkpwd.o $(LDLIBS)
+	$(CC) $(LDFLAGS) -o $@ src/mkpwd.o $(LDLIBS)
 bin/signo: src/signo.o
-	$(CC) -o $@ src/signo.o $(LDLIBS)
+	$(CC) $(LDFLAGS) -o $@ src/signo.o $(LDLIBS)
 bin/uxtime: src/uxtime.o src/scanlong.o
-	$(CC) -o $@ src/uxtime.o src/scanlong.o $(LDLIBS)
+	$(CC) $(LDFLAGS) -o $@ src/uxtime.o src/scanlong.o $(LDLIBS)
 bin/xorit: src/xorit.o
-	$(CC) -o $@ src/xorit.o $(LDLIBS)
+	$(CC) $(LDFLAGS) -o $@ src/xorit.o $(LDLIBS)
 
 src/eol.o: src/eol.c src/common.h
 src/errno.o: src/errno.c src/common.h

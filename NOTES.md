@@ -9,22 +9,44 @@
 
 ## Makefiles
 
-Put `.POSIX:` on the first non-comment line to request
-POSIX behaviour. You loose features but gain compatibility.
+The first target is the default target; it is usually
+called `all` and is is built when *make* is invoked
+without a target. Consider using only POSIX features
+and declare so by putting `.POSIX:` on the first
+non-comment line.
+
+Terminology
+
+- Rules: `target: prerequisites; commands`
+- Target Rules: like the example above
+- Inference Rules: e.g. `.c.o: ; $(CC) $(CFLAGS) -c -o $@ $<`
+- Pattern Rules: e.g. `obj/%.o: src/%.c` (**not** POSIX)
+- Macros: `FOO = bar` (note that `+=` and `?=` is **not** POSIX)
+- Internal Macros, aka Automatic Variables: `$@`, `$*`, etc.
+- Special Targets: e.g. `.POSIX:` and `.PHONY:` (**not** POSIX)
+- Phony Target: nodes in the dependency graph that do not
+  correspond to actual files, e.g. `all` or `clean`
 
 Conventional phony targets:
 
-- all (build all; place first to make it the default target)
-- clean (delete all generated files)
-- install (install built artifacts)
-- distclean (delete even more than *clean*)
-- check or test (run the test suite)
-- dist (create a package for distribution)
+- `all` (build all; place first to make it the default target)
+- `clean` (delete all generated files)
+- `install` (install built artifacts)
+- `check` or test (run the test suite)
+- `dist` (create a package for distribution)
 
-The *install* target, by convention, should use PREFIX and DESTDIR:
+By convention, the *install* target, should use PREFIX and DESTDIR,
+where PREFIX should default to */usr/local* and DESTDIR is for staged
+builds (install in a fake root).
 
-- PREFIX: should default to */usr/local*
-- DESTDIR: for staged builds (install in a fake root)
+Internal Macros
+
+- `$@` current target (full name)
+- `$*` current target (without extension)
+- `$?` prerequisites *newer* than target
+- `$^` *all* prerequisites (very useful, but **not** in POSIX)
+- `$<` file that triggered the inference rule (eg, the .c file in .c.o:)
+- `$%` file.o if current target is an archive library member `lib(file.o)`
 
 Remarks
 
@@ -35,21 +57,18 @@ Remarks
   `obj/foo.o: src/foo.c` or pattern rules, but the latter
   are not part of the POSIX standard.
 - POSIX make has only five internal macros:
-  `$@`, `$%`, `$?`, `$<`, `$*`, where `$<` is defined
-  only for inference rules, and `$?` is the list of only
-  those prerequisites that are newer than the target.
-  This means that with POSIX make a program's object files
-  have to be listed twice: as prerequisites and in the
-  build command.
+  `$@`, `$%`, `$?`, `$<`, `$*`, where `$<` is defined only
+  for inference rules, and `$?` is the list of *only those*
+  prerequisites that are newer than the target!
 - POSIX make does not scale well to large projects.
   Maintaining dependencies is error-prone.
   Makefiles for multi-directory source trees are cumbersome.
-- .PHONY is a special target to declare “phony” targets
-  (those that do not correspond with an actual file, such
-  as `all` or `clean`). It is not part of POSIX, but
-  seems to do no harm.
+- `.PHONY:` is a special target to declare “phony” targets.
+  It is not part of POSIX, but seems to do no harm.
+- `.POSIX:` on the first non-comment line requests POSIX
+  compliant behaviour. You loose features but gain compatibility.
 
-References
+See also
 
 - A Tutorial on Portable Makefiles:
   <https://nullprogram.com/blog/2017/08/20/>
@@ -157,3 +176,10 @@ It is tempting to name your logging function `log`, but this is
 also the name of the logarithm function from the standard library
 and the compiler may issue a warning even if you did not include
 `<math.h>`.
+
+In a Makefile, `$?` represents only those prerequisites that are
+newer than the target. For example, `foo: foo.o bar.o; cc -o $@ $?`
+will not work as expected, because `$?` may not represent all
+prerequisites! Instead, say `cc -o $@ $(OBJS)` after defining
+`OBJS = foo.o bar.o` or use `$^` in the command (but beware
+that the latter is **not** POSIX).
