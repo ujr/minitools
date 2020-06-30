@@ -20,3 +20,6 @@
 
 # Keep TODO my local file
 /TODO
+
+# Vim swap files
+.*.swp

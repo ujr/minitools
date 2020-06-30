@@ -7,22 +7,48 @@ isbnck \- Verify the ISBN check sum
 \fBisbnck\fP \fInumber\fP
 .
 .SH DESCRIPTION
-Read an ISBN (International Standard Book Number) from the command
-line and verify the check equation. Print one line to standard error:
-"ok" if the ISBN is valid, "invalid" if it is invalid, and "malformed"
-if it is syntactically incorrect. Nothing goes to standard output.
+Read one or many ISBN (International Standard Book Number) from
+command line argument(s), or, if no arguments are given, from
+standard input (line by line) and verify the check equation.
 
-Dashes and blanks in the ISBN are optional; \fBisbnck\fP simply
-looks for 10 digits, the last one  might also be an 'X'.
+When reading from command line arguments, write to standard error
+each number and whether the check equation holds. In this mode
+there is nothing written to standard output.
 
-Return \fB0\fP if the check equation holds (the ISBN is valid),
-\fB1\fP if it does not, and \fB99\fP if the ISBN number is malformed
-or another error occurs.
+When reading from standard input, copy each line to standard output,
+prefixed by the validation status: OK (if valid), !X when the
+check equation does not hold (X is the expected check digit),
+or !! when the ISBN is malformed.
+
+Dashes and blanks in the ISBN are optional, and the numbers may be
+prefixed with the literal string "ISBN".
+
+Return \fB0\fP if all given numbers are valid (well-formed and
+the check equation holds), otherwise return \fB1\fP.
+
+.SH EXAMPLES
+.nf
+.RB "$ " isbnck\ 0-13-110362-8
+checksum passed: 0-13-110362-8
+(1 passed, 0 failed, 0 malformed)
+.RB "$ " isbnck\ <<\ EOT
+ISBN 0-13-110362-8  The C Programming Language
+978-0-306-81286-6   The Stones of Venice
+978-0-306-81286-0   (check digit should be 6)
+978-0-306-81286-66  (malformed ISBN)
+.B EOT
+OK ISBN 0-13-110362-8  The C Programming Language
+OK 978-0-306-81286-6   The Stones of Venice
+!6 978-0-306-81286-0   (check digit should be 6)
+!! 978-0-306-81286-66  (malformed ISBN)
+(2 passed, 1 failed, 1 malformed)
+.fi
 .
 .SH AUTHOR
 Written by UJR in 2002.
+Revised for ISBN-10 and ISBN-13 in 2020.
 .br
 Released under the GNU General Public License (GPL).
 
 .SH SEE ALSO
-http://www.isbn.org/
+https://www.isbn-international.org/

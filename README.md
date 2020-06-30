@@ -52,7 +52,7 @@ followed by a check digit for error detection. When in the
 early 2000s it became difficult for new publishers to acquire
 number blocks, the new ISBN-13 system was designed, which
 is compatible with the European Article Number (EAN).
-The **isbnck** tool only knows the old ISBN-10 system.
+The **isbnck** tool knows both ISBN-10 and ISBN-13.
 
 ### About lock files
 
