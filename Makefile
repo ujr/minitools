@@ -10,7 +10,7 @@ PREFIX = /usr/local
 BINDIR=$(DESTDIR)$(PREFIX)/bin
 MANDIR=$(DESTDIR)$(PREFIX)/man
 
-PROGS = eol errno ipinfo isbnck legick mklock mkpwd signo uxtime xorit
+PROGS = eol errno float ipinfo isbnck legick mklock mkpwd signo uxtime xorit
 
 all: $(PROGS)
 
@@ -22,6 +22,7 @@ install: all
 
 eol: bin/eol
 errno: bin/errno
+float: bin/float
 ipinfo: bin/ipinfo
 isbnck: bin/isbnck
 legick: bin/legick
@@ -35,6 +36,8 @@ bin/eol: src/eol.o
 	$(CC) $(LDFLAGS) -o $@ src/eol.o $(LDLIBS)
 bin/errno: src/errno.o
 	$(CC) $(LDFLAGS) -o $@ src/errno.o $(LDLIBS)
+bin/float: src/float.o
+	$(CC) $(LDFLAGS) -o $@ src/float.o $(LDLIBS)
 bin/ipinfo: src/ipinfo.o src/scanuint.o
 	$(CC) $(LDFLAGS) -o $@ src/ipinfo.o src/scanuint.o $(LDLIBS)
 bin/isbnck: src/isbnck.o

@@ -10,6 +10,7 @@ time ago. The markdown files I added only recently.
 
 - **eol** - convert end-of-line styles (Unix, DOS, Mac)
 - **errno** - describe errno values (wraps `strerror`)
+- **float** - make and dissect IEEE double precision numbers
 - **ipinfo** - show information about an IPv4 address
 - **isbnck** - verify the ISBN check sum
 - **legick** - check/compute a Swiss student "Leginummer"
@@ -129,6 +130,48 @@ clock ticks may overflow `clock_t` and thus are not
 suitable for reliable timings. System functions may
 be used, at the price of less portability.
 
+### Floating-Point Numbers
+
+An IEEE 754 binary64 (double precision) floating-point
+number is represented as a sign bit S (1 for negative),
+an integer exponent E (11 bits), and mantissa M (52 bits).
+The number represented is essentially M * 2 ^ E, except
+that the exponent is offset by a bias (e=1023) such that
+the bit pattern is always non-negative. The actual value
+is `(-1)^S * M * 2^(E-e)`.
+
+The mantissa/exponent representation is ambiguous, as
+doubling the mantissa can be compensated by decreasing
+the exponent by one and vice versa. When an IEEE 754
+number is stored with its 52-bit mantissa left-shifted
+such that there are no leading zero bits (and the exponent
+adjusted accordingly), it is said to be **normalized**.
+Because the high-order bit of the mantissa is then always
+one, it is implicitly assumed but not actually stored:
+the mantissa has the form `M = 1.F` where F is the 52
+stored bits. This gains an additional bit of precision.
+
+Extremely small (in magnitude) numbers with exponent -1022
+are called subnormal and are stored un-normalized, that is,
+with a mantissa that can contain leading zero bits.
+This way an underflow to zero is delayed at the price of
+diminishing precision.
+
+|  S  |    E    |   F     | Value |
+|:---:|:-------:|:-------:|:-----:|
+| any | 1..2046 |   any   | `(-1)^S * 2^(E-1023) * 1.F` |
+| any |    0    | nonzero | `(-1)^S * 2^-1022 * 0.F` |
+|  0  |    0    |    0    | +0 |
+|  1  |    0    |    0    | -0 |
+|  0  |   2047  |    0    | +infty |
+|  1  |   2047  |    0    | -infty |
+| any |   2047  | nonzero | NaN |
+
+The first line in the table stands for normalized numbers.
+The second line is for “subnormal” (non-normalized) numbers.
+Both positive and negative zero are treated the same in
+computations. NaN stands for “Not a Number” and has the
+property that it is not equal to any value, including NaN.
 
 ## License
 

@@ -1,0 +1,59 @@
+.TH float 1 "Jun 2020" minitools
+.
+.SH NAME
+float \- Make and dissect floating point numbers (IEEE 754 binary64)
+.
+.SH SYNOPSIS
+.nf
+\fBfloat\fP \fIreal\fP
+\fBfloat\fP \fImantissa\fP \fIexponent\fP
+.fi
+.
+.SH DESCRIPTION
+Make a floating-point number from a given (integer) mantissa and
+a given (integer) exponent, or dissect a given floating-point
+number into its mantissa and exponent. The floating-point number
+format used is a IEEE 754 binary64 (double precision), which
+consists of a sign bit, an 11-bit exponent, and a 52-bit fraction.
+.PP
+Note that because float numbers are internally represented
+using the binary system, apparently simple decimal numbers
+(such as 0.3) have complicated representations.
+.
+.SH EXAMPLE
+.nf
+.RB "$ " "float -3.25"
+-13 -2
+.RB "$ " "float -13 -2"
+-3.25
+.RB "$ " "float 0.3"
+5404319552844595 -54
+.fi
+.
+.SH REMARKS
+A floating-point number is represented as a sign bit
+(1 for negative), an integer exponent E, and mantissa M.
+The number represented is essentially M * 2 ^ E, except
+that the exponent is offset by a bias such that the
+bit pattern is always non-negative.
+.PP
+The mantissa/exponent representation is ambiguous,
+as doubling the mantissa can be compensated by decreasing
+the exponent by one and vice versa. When an IEEE 754
+number is stored with its 52-bit mantissa left-shifted
+such that there are no leading zero bits (and the exponent
+adjusted accordingly), it is said to be normalized.
+Because the high-order bit of the mantissa is then always
+one, it is implicitly assumed but not actually stored.
+This gains an additional bit of precision.
+.PP
+Extremely small (in magnitude) numbers with exponent -1022
+are called subnormal and are stored un-normalized, that is,
+with a mantissa that can contain leading zero bits.
+This way an underflow to zero is delayed at the price of
+diminishing precision.
+.
+.SH AUTHOR
+Written by UJR in 2020.
+.br
+Released under the GNU General Public License (GPL).
